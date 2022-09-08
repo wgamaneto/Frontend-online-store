@@ -1,20 +1,20 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { getCategories } from '../services/api';
 // import { Redirect } from 'react-router-dom';
 
 class Home extends React.Component {
   state = {
-    // itens: '',
-    // click: false,
+    categorias: [],
   };
 
-  // handleClick = (event) => {
-  //   this.setState({ click: true });
-  //   const { target } = event;
-  // };
+  async componentDidMount() {
+    const handleCategorias = await getCategories();
+    this.setState({ categorias: handleCategorias });
+  }
 
   render() {
-    // const { click } = this.state;
+    const { categorias } = this.state;
     return (
       <>
         <input
@@ -25,6 +25,21 @@ class Home extends React.Component {
           Digite algum termo de pesquisa ou escolha uma categoria.
         </p>
         <Link data-testid="shopping-cart-button" to="/cart">Cart</Link>
+        <div>
+          {categorias.map((element) => (
+            <label
+              key={ element.id }
+              htmlFor={ element.name }
+              data-testid="category"
+            >
+              <input
+                name="categorias"
+                type="radio"
+                id={ element.name }
+              />
+            </label>
+          ))}
+        </div>
       </>
     );
   }
