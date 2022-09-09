@@ -11,7 +11,7 @@ class Home extends React.Component {
     searched: false,
   };
 
-  // misericordia
+  // ximbalaie
 
   async componentDidMount() {
     this.handleCategorias();
