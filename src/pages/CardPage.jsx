@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import { getProductById } from '../services/api';
 
 class CardPage extends React.Component {
@@ -7,24 +8,48 @@ class CardPage extends React.Component {
     produtos: [],
   };
 
-  async componentDidMount() {
-    const { match: { params: { id } } } = this.props;
-    const apiData = await getProductById(id);
-    this.setState({ produtos: [apiData] });
+  componentDidMount() {
+    const data = async () => {
+      await this.handleProduct();
+    };
+    data();
   }
 
-  //   getProduct = async () => {
-  //     ;
-  //   };
+  handleProduct = async () => {
+    const { match: { params: { id } } } = this.props;
+    const ipData = await getProductById(id);
+    this.setState({ produtos: [ipData] });
+  };
 
   render() {
     const { produtos } = this.state;
     return (
       <div>
-        <h1 data-testid="product-detail-name">{produtos.title}</h1>
-        <img data-testid="product-detail-image" src={}></img>
-        <p data-testid="product-detail-price" />
-        <button data-testid="shopping-cart-button" />
+        <Link to="/cart" data-testid="shopping-cart-button">
+          Carrinho de compras
+        </Link>
+        {
+          produtos.length > 0 && (produtos.map((element) => (
+            <>
+              <div key={ element.id }>
+                <img
+                  data-testid="product-detail-image"
+                  src={ element.thumbnail }
+                  alt={ element.title }
+                />
+              </div>
+              <div>
+                <p data-testid="product-detail-name">
+                  { element.title }
+                </p>
+                <p data-testid="product-detail-price">
+                  {`Price: ${element.price}`}
+                </p>
+              </div>
+            </>
+          )))
+        }
+        {'}'}
       </div>
     );
   }
