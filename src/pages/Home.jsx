@@ -11,6 +11,8 @@ class Home extends React.Component {
     searched: false,
   };
 
+  // misericordia
+
   async componentDidMount() {
     this.handleCategorias();
   }
