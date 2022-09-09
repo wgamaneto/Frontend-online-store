@@ -103,6 +103,7 @@ class Home extends React.Component {
               </>
             ))
           }
+          <Link data-testid="product-detail-link" to={ `/cardpage/${elemento.id}` } />
         </ul>
       </>
     );
