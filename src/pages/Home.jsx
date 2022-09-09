@@ -11,7 +11,7 @@ class Home extends React.Component {
     searched: false,
   };
 
-  // ximbalaie
+  // ximbalaieweeeewewe
 
   async componentDidMount() {
     this.handleCategorias();
