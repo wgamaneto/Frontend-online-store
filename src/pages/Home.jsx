@@ -100,10 +100,13 @@ class Home extends React.Component {
                 >
                   { elemento.name }
                 </button>
+                <Link
+                  data-testid="product-detail-link"
+                  to={ `/cardpage/${elemento.id}` }
+                />
               </>
             ))
           }
-          <Link data-testid="product-detail-link" to={ `/cardpage/${elemento.id}` } />
         </ul>
       </>
     );

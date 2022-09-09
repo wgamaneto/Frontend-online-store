@@ -2,8 +2,8 @@ import React from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import Home from './pages/Home';
 import Cart from './pages/Cart';
-import './App.css';
 import CardPage from './pages/CardPage';
+import './App.css';
 
 function App() {
   return (
