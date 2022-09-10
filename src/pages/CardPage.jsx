@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import { getProductById } from '../services/api';
+import { getProductById, setLocalItems } from '../services/api';
 
 class CardPage extends React.Component {
   state = {
@@ -21,6 +21,22 @@ class CardPage extends React.Component {
     this.setState({ produtos: [ipData] });
   };
 
+  handleCart = (event) => {
+    const { carrinho } = this.state;
+    const has = carrinho.some((element) => element.id === event.id);
+    if (has) {
+      event.quantidade += 1;
+      const existente = carrinho.findIndex((elemento) => elemento.id === event.id);
+      carrinho.splice(existente, 1);
+      carrinho.push(event);
+      setLocalItems(carrinho);
+    } else {
+      event.quantidade = Number(1);
+      carrinho.push(event);
+      setLocalItems(carrinho);
+    }
+  };
+
   render() {
     const { produtos } = this.state;
     return (
@@ -28,28 +44,38 @@ class CardPage extends React.Component {
         <Link to="/cart" data-testid="shopping-cart-button">
           Carrinho de compras
         </Link>
-        {
-          produtos.length > 0 && (produtos.map((element) => (
-            <>
+        <div>
+          {
+            produtos.length > 0 && (produtos.map((element) => (
               <div key={ element.id }>
-                <img
-                  data-testid="product-detail-image"
-                  src={ element.thumbnail }
-                  alt={ element.title }
-                />
+                <div>
+                  <div>
+                    <img
+                      data-testid="product-detail-image"
+                      src={ element.thumbnail }
+                      alt={ element.title }
+                    />
+                  </div>
+                  <p data-testid="product-detail-name">
+                    {element.title}
+                  </p>
+                  <p data-testid="product-detail-price">
+                    {`Price: ${element.price}`}
+                  </p>
+                </div>
+                <button
+                  data-testid="product-detail-add-to-cart"
+                  type="button"
+                  onClick={ () => this.handleCart(element) }
+                >
+                  add carrinho
+                </button>
+                <div />
+
               </div>
-              <div>
-                <p data-testid="product-detail-name">
-                  { element.title }
-                </p>
-                <p data-testid="product-detail-price">
-                  {`Price: ${element.price}`}
-                </p>
-              </div>
-            </>
-          )))
-        }
-        {'}'}
+            )))
+          }
+        </div>
       </div>
     );
   }

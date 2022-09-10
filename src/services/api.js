@@ -16,3 +16,7 @@ export async function getProductById(productId) {
   return data;
   // Atenção: essa função não deverá ser chamada na tela do carrinho de compras.
 }
+
+export function setLocalItems(elems) {
+  localStorage.setItem('cartItems', JSON.stringify(elems));
+}
