@@ -1,92 +1,97 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { getProductById, setLocalItems } from '../services/api';
+import PropTypes from 'prop-types';
+import { setLocalItems, getProduct } from '../services/api';
 
-class CardPage extends React.Component {
+export default class ProductDetails extends Component {
   state = {
-    produtos: [],
+    arrayProduct: [],
+    carrinho: [],
   };
 
   componentDidMount() {
-    const data = async () => {
-      await this.handleProduct();
+    const store = async () => {
+      await this.getProduct();
     };
-    data();
+    store();
+    const produtos = JSON.parse(localStorage.getItem('carrinhoItems')) || [];
+    this.setState({
+      carrinho: produtos,
+    });
   }
 
-  handleProduct = async () => {
+  getProduct = async () => {
     const { match: { params: { id } } } = this.props;
-    const ipData = await getProductById(id);
-    this.setState({ produtos: [ipData] });
+    const product = await getProduct(id);
+    product.quantidade = Number(1);
+    this.setState({
+      arrayProduct: [product],
+    });
   };
 
-  handleCart = (event) => {
+  addCarrinho = (element) => {
     const { carrinho } = this.state;
-    const has = carrinho.some((element) => element.id === event.id);
+    const has = carrinho.some((elemento) => elemento.id === element.id);
     if (has) {
-      event.quantidade += 1;
-      const existente = carrinho.findIndex((elemento) => elemento.id === event.id);
+      element.quantidade += 1;
+      const existente = carrinho.findIndex((elemento) => elemento.id === element.id);
       carrinho.splice(existente, 1);
-      carrinho.push(event);
+      carrinho.push(element);
       setLocalItems(carrinho);
     } else {
-      event.quantidade = Number(1);
-      carrinho.push(event);
+      element.quantidade = Number(1);
+      carrinho.push(element);
       setLocalItems(carrinho);
     }
   };
 
   render() {
-    const { produtos } = this.state;
+    const { arrayProduct } = this.state;
     return (
-      <div>
-        <Link to="/cart" data-testid="shopping-cart-button">
-          Carrinho de compras
-        </Link>
+      <>
+        <div>
+          <p>
+            <Link to="/Shopcarrinho" data-testid="shopping-carrinho-button">
+              carrinho
+            </Link>
+          </p>
+        </div>
         <div>
           {
-            produtos.length > 0 && (produtos.map((element) => (
+            arrayProduct.length > 0 && (arrayProduct.map((element) => (
               <div key={ element.id }>
                 <div>
-                  <div>
-                    <img
-                      data-testid="product-detail-image"
-                      src={ element.thumbnail }
-                      alt={ element.title }
-                    />
-                  </div>
-                  <p data-testid="product-detail-name">
-                    {element.title}
-                  </p>
-                  <p data-testid="product-detail-price">
-                    {`Price: ${element.price}`}
-                  </p>
+                  <img
+                    data-testid="product-detail-image"
+                    src={ element.thumbnail }
+                    alt={ element.title }
+                  />
+                </div>
+                <div>
+                  <p data-testid="product-detail-name">{element.title}</p>
+                  <p data-testid="product-detail-price">{`Price: ${element.price}`}</p>
                 </div>
                 <button
-                  data-testid="product-detail-add-to-cart"
+                  data-testid="product-detail-add-to-carrinho"
                   type="button"
-                  onClick={ () => this.handleCart(element) }
+                  onClick={ () => this.addCarrinho(element) }
                 >
-                  add carrinho
+                  Adicionar
                 </button>
-                <div />
-
               </div>
             )))
           }
         </div>
-      </div>
+
+      </>
     );
   }
 }
 
-CardPage.propTypes = {
+ProductDetails.propTypes = {
   match: PropTypes.shape({
     params: PropTypes.shape({
       id: PropTypes.string,
     }),
   }),
 }.isRequired;
-
-export default CardPage;

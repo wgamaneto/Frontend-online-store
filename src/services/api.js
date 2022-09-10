@@ -17,6 +17,12 @@ export async function getProductById(productId) {
   // Atenção: essa função não deverá ser chamada na tela do carrinho de compras.
 }
 
-export function setLocalItems(elems) {
-  localStorage.setItem('cartItems', JSON.stringify(elems));
+export function setLocalItems(element) {
+  localStorage.setItem('cartItems', JSON.stringify(element));
+}
+
+export async function getProduct(id) {
+  const response = await fetch(`https://api.mercadolibre.com/items/${id}`);
+  const data = await response.json();
+  return data;
 }
