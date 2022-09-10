@@ -51,7 +51,7 @@ export default class ProductDetails extends Component {
       <>
         <div>
           <p>
-            <Link to="/Shopcarrinho" data-testid="shopping-carrinho-button">
+            <Link to="/cart" data-testid="shopping-carrinho-button">
               carrinho
             </Link>
           </p>
@@ -78,6 +78,13 @@ export default class ProductDetails extends Component {
                 >
                   Adicionar
                 </button>
+                <Link to={ `/cart/${element.id}` }>
+                  <input
+                    data-testid="product-detail-link"
+                    type="button"
+                    value="Test"
+                  />
+                </Link>
               </div>
             )))
           }
