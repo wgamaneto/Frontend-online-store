@@ -105,16 +105,22 @@ class Home extends React.Component {
                       data-testid="product-add-to-cart"
                       onClick={ () => this.handleCart(element.id) }
                     >
-                      Adicionar ao Carrinho!
+                      Adicionar ao Carrinho
                     </button>
                   </div>
                 ))
               )
           }
         </div>
-        <Link data-testid="shopping-cart-button" to="/cart">
-          Carrinho de compras
-        </Link>
+        <p>
+          <Link to="/cart">
+            <input
+              type="button"
+              data-testid="shopping-cart-button"
+              value="Voltar ao carrinho"
+            />
+          </Link>
+        </p>
         <ul>
           {
             categorias.map((element) => (
@@ -128,12 +134,8 @@ class Home extends React.Component {
                   onClick={ this.handleHandle }
 
                 >
-                  { element.name }
+                  {element.name}
                 </button>
-                <Link
-                  data-testid="product-detail-link"
-                  to={ `/cardpage/${element.id}` }
-                />
               </div>
             ))
           }
