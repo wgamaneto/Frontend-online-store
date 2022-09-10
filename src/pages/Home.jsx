@@ -57,6 +57,10 @@ class Home extends React.Component {
     }
   };
 
+  clickDetails = async (element) => {
+    console.log(element);
+  };
+
   render() {
     const { categorias, search, list, searched } = this.state;
     return (
@@ -107,6 +111,16 @@ class Home extends React.Component {
                     >
                       Adicionar ao Carrinho
                     </button>
+                    <Link to="/CardPage">
+                      <button
+                        name={ element.id }
+                        type="button"
+                        data-testid="product-detail-link"
+                        onClick={ () => this.clickDetails(element) }
+                      >
+                        Detalhes do Produto
+                      </button>
+                    </Link>
                   </div>
                 ))
               )
