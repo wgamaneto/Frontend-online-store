@@ -111,7 +111,7 @@ class Home extends React.Component {
                     >
                       Adicionar ao Carrinho
                     </button>
-                    <Link to="/CardPage">
+                    <Link to={ `/CardPage/${element.id}` }>
                       <button
                         name={ element.id }
                         type="button"

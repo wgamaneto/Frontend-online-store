@@ -51,7 +51,7 @@ export default class ProductDetails extends Component {
       <>
         <div>
           <p>
-            <Link to="/cart" data-testid="shopping-carrinho-button">
+            <Link to="/cart" data-testid="shopping-cart-button">
               carrinho
             </Link>
           </p>
@@ -60,31 +60,25 @@ export default class ProductDetails extends Component {
           {
             arrayProduct.length > 0 && (arrayProduct.map((element) => (
               <div key={ element.id }>
-                <div>
-                  <img
-                    data-testid="product-detail-image"
-                    src={ element.thumbnail }
-                    alt={ element.title }
-                  />
-                </div>
+
                 <div>
                   <p data-testid="product-detail-name">{element.title}</p>
+                  <div>
+                    <img
+                      data-testid="product-detail-image"
+                      src={ element.thumbnail }
+                      alt={ element.title }
+                    />
+                  </div>
                   <p data-testid="product-detail-price">{`Price: ${element.price}`}</p>
                 </div>
                 <button
-                  data-testid="product-detail-add-to-carrinho"
+                  data-testid="product-detail-add-to-cart"
                   type="button"
                   onClick={ () => this.addCarrinho(element) }
                 >
                   Adicionar
                 </button>
-                <Link to={ `/cart/${element.id}` }>
-                  <input
-                    data-testid="product-detail-link"
-                    type="button"
-                    value="Test"
-                  />
-                </Link>
               </div>
             )))
           }
